@@ -30,10 +30,10 @@ resource "aws_subnet" "public" {
   }
 }
 
-resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.name}-jones-shiny-bucket"
-  tags = {
-    Name = "${var.name}-jones-demo-s3"
-  }
-}
+# resource "aws_s3_bucket" "bucket" {
+#   bucket = "${var.name}-jones-shiny-bucket"
+#   tags = {
+#     Name = "${var.name}-jones-demo-s3"
+#   }
+# }
 
