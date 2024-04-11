@@ -1,43 +1,64 @@
-name: Deploy Infrastructe 
+name: Deploy Infrastructe
 
-on: 
-  push: 
-    branches: 
-      - main
-      - dev
+on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        type: choice
+        description: select terraform action
+        options:
+        - apply
+        - destroy
+        required: true
 
-jobs: 
-  deploy_site: 
-    name: Install Ubuntu 
-    runs-on: ubuntu-latest 
-    defaults: 
-      run: 
-        working-directory: terraform 
+  push:
+    branches: [ "main" ]
+
+# permissions:
+#   contents: read
+#   id-token: write
+
+jobs:
+  deploy_site:
+    name: Install Ubuntu
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
 
     steps:
-    - name: Checkout Repo 
-      uses: actions/checkout@v4 
+      - uses: actions/checkout@v4
 
-    - name: Setup Terraform 
-      uses: hashicorp/setup-terraform@v2 
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-2
+          role-to-assume: arn:aws:iam::213939666921:role/GithubActions
+          role-session-name: github-actions
 
-    - name: Terraform init 
-      run: terraform init 
-      env: 
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    
-    - name: Terraform Validate
-      run: terraform validate
-        
-    - name: Terraform Plan 
-      run: terraform plan
-      env: 
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.6"
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+
+      - name: Terraform apply
+        if: ${{ github.event.inputs.terraform_action == 'apply' }}
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.3
+          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
+          tf_actions_working_dir: './terraform'
+          tf_actions_comment: true
+          args: '-auto-approve'
       
-    - name: Terraform apply 
-      run: terraform apply --auto-approve 
-      env: 
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}      
+      - name: Terraform destroy
+        if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.14.3
+          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
+          tf_actions_working_dir: './terraform'
+          tf_actions_comment: true
+          args: '-auto-approve'
