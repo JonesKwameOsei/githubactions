@@ -41,13 +41,13 @@ jobs:
         with:
           terraform_version: "1.6.6"
 
-      - name: Terraform refresh
-        id: refresh
-        run: terraform refresh   
-
       - name: Terraform init
         id: init
-        run: terraform init
+        run: terraform init   
+
+      # - name: Terraform init
+      #   id: init
+      #   run: terraform init
 
       - name: Terraform apply
         if: ${{ github.event.inputs.terraform_action == 'apply' }}
