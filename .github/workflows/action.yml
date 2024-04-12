@@ -1,6 +1,16 @@
-name: Deploy Infrastructe
+name: Deploy Infrastructure
 
 on:
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        type: choice
+        description: select terraform action
+        options:
+        - apply
+        - destroy
+        required: true
+
   push:
     branches:
       - main
@@ -35,9 +45,9 @@ jobs:
         id: init
         run: terraform init
 
-      - name: Terraform validate
-        id: validate
-        run: terraform validate
+      # - name: Terraform validate
+      #   id: validate
+      #   run: terraform validate
 
       # - name: Terraform plan
       #   id: plan
