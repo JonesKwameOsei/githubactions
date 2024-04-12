@@ -1,0 +1,29 @@
+# Basic set up for three package managers
+
+version: 2
+updates:
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Workflow files stored in the default location of `.github/workflows`. (You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.)
+    directory: "/"
+    target-branch: "main"
+    reviewers:
+      - "JonesKwameOsei"
+      - "jessfraz"
+    schedule:
+      interval: "weekly"
+      time: "07:00"
+      timezone: "Europe/London"
+
+  # # Maintain dependencies for npm
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+
+  # # Maintain dependencies for Composer
+  # - package-ecosystem: "composer"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"

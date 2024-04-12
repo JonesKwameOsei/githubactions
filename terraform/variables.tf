@@ -1,52 +1,49 @@
 # set variables for EC2 instance AMI
-variable "ami" {
-  description = "The AMI ID to be used for the EC2 Instance"
+variable "region" {
+  type = string
+  default     = ["eu-west-2"]
+  description = "AWS region for deployment"
+}
+
+variable "availability_zones" {
+  type = list(string)
+  default = ["eu-west-2a", "eu-west-2b"]
+  description = "availability zone for deployment"
+}
+
+variable "cidr_block" {
+  type = list(string)
+  default     = ["10.0.0.0/16", "10.0.1.0/24", "0.0.0.0/0", "1.2.3.4/32"]
+  description = "CIDR blocks for VPC, subnet and security group"
+}
+
+variable "private_ips" {
+  # type        = list(string)
+  default     = "10.0.1.50"
+  description = "Private IP for EC2 nistance"
+}
+
+variable "key" {
+  type = string
+  default     = "ssh-key"
+  description = "SSH-Key for EC2 instance"
+}
+
+variable "type" {
   type        = string
-  default     = "ami-0d18e50ca22537278"
+  default     = "t2.micro"
+  description = "Instance type of EC2 instance"
 }
 
-# set variables for EC2 instance Type
-# variable "instance_type" {
-#   description = "The AWS Instance Type to be used for the EC2 Instance"
-#   type        = string
-#   default     = "t2.micro"
-# }
-
-variable "instance_type" {
-  type = map(any)
-  default = {
-    "prod" = "t2.small"
-    "dev"  = "t2.micro"
-  }
-}
-
-# set variables for EC2 instance NAme
 variable "name" {
-  description = "The instance name as prefix to be attached to almost every resource name"
-  type        = string
-  default     = "jonesvm"
+  type = string
+  default     = "Nginx Web Server"
+  description = "Name of the server"
 }
 
-variable "vpc_cidr" {
-  description = "The VPC CIDR range to be used for our virtual network."
-  type        = string
-  default     = "10.0.0.0/16"
-}
-
-variable "private_subnet_cidr" {
-  description = "The CIDR range to be used for the private subnet"
-  type        = string
-  default     = "10.0.1.0/24"
-}
-
-variable "public_subnet_cidr" {
-  description = "The CIDR range to be used for the public subnet"
-  type        = string
-  default     = "10.0.2.0/24"
-}
-
-variable "servers" {
-  default = ["dev", "staging", "prod"]
-  type    = list(any)
+variable "root_size" {
+  type = number
+  default     = 9
+  description = "Size of the root volume"
 }
 
