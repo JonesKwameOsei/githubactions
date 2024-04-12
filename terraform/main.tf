@@ -123,7 +123,7 @@ resource "aws_instance" "ec2_web" {
   ami               = data.aws_ami.ubuntu_latest.id
   instance_type     = var.type
   availability_zone = var.availability_zones[0]
-  key_name          = aws_key_pair.key_web.key_name
+  user_data = file("userdata.tpl")
   root_block_device {
     volume_size = var.root_size
   }
@@ -132,9 +132,6 @@ resource "aws_instance" "ec2_web" {
     device_index         = 0
     network_interface_id = aws_network_interface.nic_web.id
   }
-
-  user_data = file("userdata.tpl")
-
   tags = {
     Name = var.name
   }
