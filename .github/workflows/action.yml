@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy_site:
-    name: Install Ubuntu
+    name: Deploy EC2 Instance on Nginx Server
     runs-on: ubuntu-latest
     defaults:
       run:
