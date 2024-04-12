@@ -103,7 +103,7 @@ resource "aws_network_interface" "nic_web" {
 # Assinging elastic IP
 resource "aws_eip" "elastic_web" {
   depends_on                = [aws_internet_gateway.ig_web]
-  vpc                       = true
+  domain                    = "vpc"
   network_interface         = aws_network_interface.nic_web.id
   associate_with_private_ip = aws_network_interface.nic_web.private_ip
 
@@ -115,12 +115,12 @@ resource "aws_eip" "elastic_web" {
 # Importing SSH key
 resource "aws_key_pair" "key_web" {
   key_name   = var.key
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("aws_key.pub")
 }
 
 # Defining EC2 instance
 resource "aws_instance" "ec2_web" {
-  ami               = data.aws_ami.ubuntu_image.id
+  ami               = data.aws_ami.ubuntu_latest.id
   instance_type     = var.type
   availability_zone = var.availability_zones[0]
   key_name          = aws_key_pair.key_web.key_name
