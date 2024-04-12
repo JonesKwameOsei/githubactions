@@ -113,10 +113,10 @@ resource "aws_eip" "elastic_web" {
 }
 
 # Importing SSH key
-resource "aws_key_pair" "key_web" {
-  key_name   = var.key
-  public_key = file("aws_key.pub")
-}
+# resource "aws_key_pair" "key_web" {
+#   key_name   = var.key
+#   public_key = file("aws_key.pub")
+# }
 
 # Defining EC2 instance
 resource "aws_instance" "ec2_web" {
