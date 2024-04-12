@@ -1,6 +1,6 @@
 # Output AMI Image Name
 output "ami_name" {
-  value = data.aws_ami.ubuntu_image.name
+  value = data.aws_ami.ubuntu_latest
 }
 
 # Output Public IP
