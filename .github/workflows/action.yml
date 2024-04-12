@@ -1,16 +1,6 @@
-name: Deploy Infrastructure
+name: Deploy Infrastructe
 
 on:
-  workflow_dispatch:
-    inputs:
-      terraform_action:
-        type: choice
-        description: select terraform action
-        options:
-        - apply
-        - destroy
-        required: true
-
   push:
     branches:
       - main
@@ -43,28 +33,8 @@ jobs:
 
       - name: Terraform init
         id: init
-        run: terraform init   
-
-      # - name: Terraform init
-      #   id: init
-      #   run: terraform init
+        run: terraform init
 
       - name: Terraform apply
-        if: ${{ github.event.inputs.terraform_action == 'apply' }}
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.3
-          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
-          tf_actions_working_dir: './terraform'
-          tf_actions_comment: true
-          args: '-auto-approve'
-      
-      - name: Terraform destroy
-        if: ${{ github.event.inputs.terraform_action == 'destroy' }}
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.3
-          tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
-          tf_actions_working_dir: './terraform'
-          tf_actions_comment: true
-          args: '-auto-approve'
+        id: apply
+        run: terraform apply --auto-approve
