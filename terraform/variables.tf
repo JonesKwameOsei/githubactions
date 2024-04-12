@@ -1,6 +1,6 @@
 # set variables for EC2 instance AMI
 variable "region" {
-  type = string
+  # type = string
   default     = ["eu-west-2"]
   description = "AWS region for deployment"
 }
