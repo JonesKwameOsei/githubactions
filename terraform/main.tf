@@ -30,7 +30,7 @@ resource "aws_route_table" "route_web" {
 resource "aws_subnet" "subnet_web" {
   vpc_id            = aws_vpc.vpc_web.id
   cidr_block        = var.cidr_block[1]
-  availability_zone = var.region[1]
+  availability_zone = var.availability_zones[0]
 
   tags = {
     Name = "${local.resource_name}_Subnet"
