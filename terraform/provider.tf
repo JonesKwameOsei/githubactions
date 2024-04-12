@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     bucket = "jones-tf-state-bucket"
     key    = "devops/infrastructure/resources.tfstate"
-    region = var.region
+    region = "eu-west-2"
   }
   required_providers {
     aws = {
@@ -18,5 +18,5 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
+  region = "eu-west-2"
 }
