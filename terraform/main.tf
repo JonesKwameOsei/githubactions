@@ -2,6 +2,7 @@
 resource "aws_instance" "web" {
   ami           = var.ami
   instance_type = var.instance_type["dev"]
+  user_data = templatefile("userdata.tpl")
   tags = {
     Name = "${var.name}-${var.servers[2]}"
   }
