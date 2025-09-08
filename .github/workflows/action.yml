@@ -21,7 +21,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: eu-west-2
           role-to-assume: arn:aws:iam::194626909496:role/GithubActions
